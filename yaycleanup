@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "# DELETE THIS LINE and delete lines you want to KEEP" > apps
+yay -Qet | awk '{ print $1 }' >> apps
+vim ___apps
+yay -Rs $(cat ___apps)
+yay -Scc
+rm ___apps
+neofetch

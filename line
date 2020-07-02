@@ -1,0 +1,2 @@
+#!/bin/sh
+chromium --app=chrome-extension://ophjlpahpchlmihnnnihgmmeilfjmjjc/index.html
