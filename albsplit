@@ -1,0 +1,32 @@
+#!/bin/bash
+
+# inspired by luke smith's booksplit
+
+[ ! -f "$2" ] && printf "The first file should be the audio, the second should be the timecodes.\\n" && exit
+
+ext="ogg"
+inputaudio="$1"
+
+trackslist=$(sed '/^$/d' "$2")
+
+albtitle=${inputaudio%-*}
+foldername="$(echo "$albtitle" | iconv -cf UTF-8 -t ASCII//TRANSLIT | tr -d '[:punct:]' | tr ' ' '_' | sed "s/-\+/-/g;s/\(^-\|-\$\)//g")"
+mkdir $foldername
+
+total="$(echo "$trackslist" | sed '/^\s*$/d' | wc -l)"
+
+while read -r trackinfo;
+do
+	end="$(echo "$trackinfo" | cut -d' ' -f1)"
+	title="$(echo "$trackinfo" | cut -d' ' -f2-)"
+
+	[ -n "$start" ] && echo "From $start to $end; $title"
+
+	file="$foldername/$esctitle.$ext"
+
+	[ -n "$start" ] && echo "Splitting \"$title\"..." && ffmpeg -nostdin -y -loglevel -8 -i "$inputaudio" -ss "$start" -to "$end" -vn "$file"
+
+	esctitle="$(echo "$title" | iconv -cf UTF-8 -t ASCII//TRANSLIT | tr -d '[:punct:]' | tr ' ' '_' | sed "s/-\+/-/g;s/\(^-\|-\$\)//g")"
+
+	start="$end"
+done <<< "$trackslist"
