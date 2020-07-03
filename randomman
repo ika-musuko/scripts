@@ -1,0 +1,2 @@
+#!/bin/sh
+man $(ls /bin | shuf | head -1)
