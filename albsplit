@@ -10,7 +10,7 @@ inputaudio="$1"
 trackslist=$(sed '/^$/d' "$2")
 
 albtitle=${inputaudio%-*}
-foldername="$(echo "$albtitle" | iconv -cf UTF-8 -t ASCII//TRANSLIT | tr -d '[:punct:]' | tr ' ' '_' | sed "s/-\+/-/g;s/\(^-\|-\$\)//g")"
+foldername="$(echo "$albtitle" | iconv -cf UTF-8 -t ASCII//TRANSLIT | tr -d '[:punct:]' | tr '[:upper:]' '[:lower:]' | tr ' ' '-' | sed "s/-\+/-/g;s/\(^-\|-\$\)//g")"
 mkdir $foldername
 
 total="$(echo "$trackslist" | sed '/^\s*$/d' | wc -l)"
