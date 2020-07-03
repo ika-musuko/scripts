@@ -18,7 +18,7 @@ total="$(echo "$trackslist" | sed '/^\s*$/d' | wc -l)"
 while read -r trackinfo;
 do
 	end="$(echo "$trackinfo" | cut -d' ' -f1)"
-	title="$(echo "$trackinfo" | cut -d' ' -f2-)"
+	nexttitle="$(echo "$trackinfo" | cut -d' ' -f2-)"
 
 	[ -n "$start" ] && echo "From $start to $end; $title"
 
@@ -29,4 +29,5 @@ do
 	esctitle="$(echo "$title" | iconv -cf UTF-8 -t ASCII//TRANSLIT | tr -d '[:punct:]' | tr ' ' '_' | sed "s/-\+/-/g;s/\(^-\|-\$\)//g")"
 
 	start="$end"
+    title="$nexttitle"
 done <<< "$trackslist"
