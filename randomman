@@ -1,2 +1,2 @@
 #!/bin/sh
-ret=1 && while [ $ret -ne 0 ]; do man $(ls /usr/bin | shuf | head -1); ret=$?; done 2>/dev/null
+tool=$(ls /usr/bin | shuf | head -1); man $tool 2>/dev/null || { $tool --help }
