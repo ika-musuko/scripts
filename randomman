@@ -1,2 +1,3 @@
 #!/bin/sh
-tool=$(ls /usr/bin | shuf | head -1); man $tool 2>/dev/null || { $tool --help }
+tool=$(ls /usr/bin | shuf | head -1) 
+man $tool 2>/dev/null || $tool --help || $tool -h
