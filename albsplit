@@ -15,19 +15,23 @@ mkdir $foldername
 
 total="$(echo "$trackslist" | sed '/^\s*$/d' | wc -l)"
 
-while read -r trackinfo;
-do
+processtrack () {
 	end="$(echo "$trackinfo" | cut -d' ' -f1)"
 	nexttitle="$(echo "$trackinfo" | cut -d' ' -f2-)"
-
-	[ -n "$start" ] && echo "From $start to $end; $title"
-
+	esctitle="$(echo "$title" | iconv -cf UTF-8 -t ASCII//TRANSLIT | tr -d '[:punct:]' | tr ' ' '_' | sed "s/-\+/-/g;s/\(^-\|-\$\)//g")"
 	file="$foldername/$esctitle.$ext"
 
-	[ -n "$start" ] && echo "Splitting \"$title\"..." && ffmpeg -nostdin -y -loglevel -8 -i "$inputaudio" -ss "$start" -to "$end" -vn "$file"
-
-	esctitle="$(echo "$title" | iconv -cf UTF-8 -t ASCII//TRANSLIT | tr -d '[:punct:]' | tr ' ' '_' | sed "s/-\+/-/g;s/\(^-\|-\$\)//g")"
+    [ -n "$start" ] && echo "($start - $end) Splitting to $file ..." \
+        && [ -n "$end" ] \
+           && ffmpeg -nostdin -y -loglevel -8 -i "$inputaudio" -ss "$start" -to "$end" -vn "$file" \
+           || ffmpeg -nostdin -y -loglevel -8 -i "$inputaudio" -ss "$start"            -vn "$file"
 
 	start="$end"
     title="$nexttitle"
+}
+
+while read -r trackinfo;
+do
+    processtrack
 done <<< "$trackslist"
+processtrack
