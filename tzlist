@@ -1,0 +1,15 @@
+#!/bin/sh
+format='+%a %Y-%m-%d %H:%M:%S'
+timezones="
+America/Los_Angeles
+America/Halifax
+Europe/Zurich
+Europe/Moscow
+Asia/Kolkata
+Asia/Hong_Kong
+Asia/Tokyo
+"
+
+while read -r tz; do
+    [ -z $tz ] || printf "%-20s | %s\n" "$tz" "$(TZ=$tz date "$format")"
+done <<< "$timezones"
