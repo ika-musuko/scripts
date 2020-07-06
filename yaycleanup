@@ -6,6 +6,6 @@ echo "# DELETE THIS LINE and delete lines you want to KEEP" > $apps
 yay -Qet | awk '{ print $1 }' >> $apps
 vim $apps
 yay -Rs $(cat $apps)
-yay -Scc
+yes | yay -Scc
 rm $apps
 neofetch
