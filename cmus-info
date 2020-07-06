@@ -1,0 +1,41 @@
+#!/bin/sh
+convertsecs() {
+    ((m=(${1}%3600)/60))
+    ((s=${1}%60))
+    printf "%02d:%02d\n" $m $s
+}
+
+cmus_query=$(cmus-remote -Q)
+cmus_field() {
+    echo "$cmus_query" | grep $1 | cut -d ' ' -f $2-
+}
+
+title_full=$(cmus_field title 3)
+title=${title_full:0:48}
+
+artist=$(cmus_field "\<artist\>" 3)
+position=$(cmus_field position 2)
+duration=$(cmus_field duration 2)
+play_status=$(cmus_field status 2)
+repeat_current=$(cmus_field repeat_current 3)
+
+# processed fields
+current_time=$(convertsecs $position)
+total_time=$(convertsecs $duration)
+
+# icon
+if   [ "$play_status" == "playing" ]; then icon=">"
+elif [ "$play_status" == "paused"  ]; then icon="|"
+else                                       icon="."
+fi
+
+# loop_icon
+[ "$repeat_current" == "true" ] && loop_icon="@" || loop_icon=""
+
+# use filename if title is null
+[ "$title" == "" ] && title=$(cmus_field file 2)
+
+# output
+echo -e $title - $artist \[ $loop_icon $icon'\uFE0E' $current_time / $total_time \]
+
+

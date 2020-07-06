@@ -1,0 +1,5 @@
+#!/bin/sh
+api_output=$(curl "https://api.sunrise-sunset.org/json?lat=37.5&lng=-122&formatted=0")
+sunrise=$(echo $api_output | jq '.results.sunrise' | xargs -I {} date -d {} "+%T")
+sunset=$( echo $api_output | jq '.results.sunset'  | xargs -I {} date -d {} "+%T")
+echo "$sunrise → $sunset"

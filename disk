@@ -1,0 +1,5 @@
+#!/bin/sh
+disk_space=$(df -h $1 | tail -1)
+disk_used=$(echo $disk_space | awk '{print $3}')
+disk_total=$(echo $disk_space | awk '{print $2}')
+echo "$1: $disk_used/$disk_total"
