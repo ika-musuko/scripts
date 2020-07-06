@@ -1,6 +1,6 @@
 #!/bin/sh
 
-apps=___apps
+apps="$HOME/___apps"
 
 echo "# DELETE THIS LINE and delete lines you want to KEEP" > $apps
 yay -Qet | awk '{ print $1 }' >> $apps

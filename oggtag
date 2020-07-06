@@ -1,0 +1,22 @@
+#!/bin/bash
+
+usage=`cat <<EOF
+    Usage: \n
+    tags='Tag=Value \n
+    Tag2=Value2' files='file1.ogg file2.ogg'| oggtag \n
+    \n
+    \\$tags  is a newline separated list of tags like Tag=Value \n
+    \\$files is a regex expression of file(s) to match
+EOF`
+
+[[ -z $files || -z $tags ]] && echo -e $usage && exit 1
+
+
+for file in $files
+do
+    [[ $tags != *"Title="* ]] \
+        && finaltags="$tags\nTitle=${file%.*}" \
+        || finaltags="$tags"
+    
+    echo -e $finaltags | vorbiscomment -w "$file"
+done
