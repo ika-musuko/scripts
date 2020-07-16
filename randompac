@@ -1,0 +1,2 @@
+#!/bin/sh
+yay -Ss $(yay -Sl | shuf | head -1 | awk '{ print $2 }') 

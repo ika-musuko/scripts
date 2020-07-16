@@ -12,6 +12,7 @@ EOF`
 [[ -z $files || -z $tags ]] && echo -e $usage && exit 1
 
 
+shopt -s extglob
 for file in $files
 do
     [[ $tags != *"Title="* ]] \

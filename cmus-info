@@ -11,7 +11,7 @@ cmus_field() {
 }
 
 title_full=$(cmus_field title 3)
-title=${title_full:0:48}
+title=${title_full:0:64}
 
 artist=$(cmus_field "\<artist\>" 3)
 position=$(cmus_field position 2)
