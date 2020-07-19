@@ -50,9 +50,6 @@ do
 	# ignore empty output (this will happen if one of the filetypes above isn't matched)
 	[[ -z $songTime ]] && continue
 
-	# output current song and its timestamp
-	echo $song - $currentTime 
-
 	# calculate timestamp for next song 
 	songMinutes=$(echo $songTime | cut -f2 -d ' ' | cut -c1-2 | sed 's/^0*//')
 	songSeconds=$(echo $songTime | cut -f3 -d ' ' | cut -c1-2 | sed 's/^0*//')
@@ -65,5 +62,8 @@ do
 	fi
 	currentSeconds=$newSeconds
 	currentMinutes=$((currentMinutes + songMinutes))
-	currentTime=$(printf "%02d:%02d\n" $currentMinutes $currentSeconds)
+	currentTime=$(printf "%02d:%02d " $currentMinutes $currentSeconds)
+
+	# output current song and its timestamp
+	echo $song - $currentTime 
 done

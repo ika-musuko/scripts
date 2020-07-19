@@ -1,2 +1,8 @@
 #!/bin/sh
+if [ -n $2 ] 
+then
+    title=$(youtube-dl -e $1)
+    mkdir "$title" && cd "$title"
+fi
 youtube-dl -i $1 -x --audio-format vorbis
+[ -n $2 ] && cd ..
