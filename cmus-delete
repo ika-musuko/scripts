@@ -2,7 +2,7 @@
 badsong=$(cmus-remote -Q | grep file | cut -d " " -f 2-)
 cmus-remote -u
 
-if zenity --question --title="cmus-delete" --text="Are you sure you want to delete\n '$badsong'?" --width=400 --height=50
+if zenity --question --title="cmus-delete" --text="Are you sure you want to delete\n $badsong?" --width=400 --height=50
 then
     cmus-remote -n
     rm "$badsong"
