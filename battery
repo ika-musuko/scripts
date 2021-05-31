@@ -2,4 +2,4 @@
 info=$(upower -i /org/freedesktop/UPower/devices/battery_BAT0)
 state=$(echo "$info" | grep 'state' | awk '{print $2}')
 powerlevel=$(echo "$info" | grep 'percent' | awk '{print $2}')
-echo ${state:0:3}: $powerlevel
+echo ${state:0:1}: $powerlevel
